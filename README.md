@@ -66,7 +66,7 @@ No follower-count-as-credential nonsense. ClipTips verifies the actual documents
 Every knowledge domain on the platform is rendered as an orbiting sphere on a live 3D starmap. Size scales with session activity. Click a domain to filter Experts. The taxonomy is expert-proposed and admin-reviewed so it stays clean as the platform grows.
 
 ![Knowledge Nexus](screenshots/nexus.png)
-*655 domains mapped. Every sphere is a speciality with live Expert counts.*
+*141 domains seeded. Every sphere is a speciality with live Expert counts.*
 
 ---
 
@@ -80,7 +80,7 @@ The marketplace gets better every time a session closes.
 
 ## Stack
 
-Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co (video rooms) · Sieve + HeyGen (translation pipeline) · Playwright (E2E) · PostHog · Resend · Vercel
+Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Jitsi Meet (live video, mid-migration to Daily.co) · HeyGen (voice clone + dubbing pipeline) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
 
 ---
 
