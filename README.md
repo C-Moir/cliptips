@@ -80,7 +80,9 @@ The marketplace gets better every time a session closes.
 
 ## Stack
 
-Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Jitsi Meet (live video, mid-migration to Daily.co) · HeyGen (voice clone + dubbing pipeline) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
+Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · HeyGen (voice clone + dubbing pipeline) · OpenAI Whisper (transcription) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
+
+Vendor-portable by design. Video, translation, transcription, and email each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline.
 
 ---
 
