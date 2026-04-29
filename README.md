@@ -1,9 +1,9 @@
 # ClipTips
 
 **Live video marketplace with real-time AI translation.**
-Book a verified expert by the minute, ask your question on camera, hear the answer in your own language.
+Book a verified expert by the minute, ask your question on camera, hear the answer in your own language — in their cloned voice.
 
-[![Status](https://img.shields.io/badge/status-pre--launch%20testing-818cf8?style=flat-square)](https://cliptips-mvp.vercel.app)
+[![Status](https://img.shields.io/badge/status-live%20interpreter%20GA-22c55e?style=flat-square)](https://cliptips-mvp.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://typescriptlang.org)
 [![Supabase](https://img.shields.io/badge/Supabase-Postgres-3ecf8e?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com)
@@ -17,7 +17,7 @@ The person who can answer your question exists somewhere in the world. They just
 
 ClipTips closes that gap. An Italian tiler, a Japanese pastry chef, a Queensland lawyer, a Brazilian surgeon — anyone with verifiable expertise can take live video sessions from askers worldwide, in any of 100+ languages. Voice is cloned and re-dubbed into the asker's language with subtitles running in parallel. Both sides speak naturally. Both sides understand.
 
-Paid per minute. No subscriptions. No hidden fees. 85% of every session goes to the Expert.
+Paid per minute. No subscriptions. No hidden fees. 75% of every session goes to the Expert.
 
 ---
 
@@ -25,26 +25,38 @@ Paid per minute. No subscriptions. No hidden fees. 85% of every session goes to 
 
 ### The three-sided flow
 
-**Asker** signs up, tops up CLIP tokens (1000 CLIP = $10 USD flat), browses verified Experts by domain, books a session. During the call they see subtitles in their language. After the session they can publish the recording into the Knowledge Repository for other askers to find.
+**Asker** signs up, tops up CLIP tokens (1000 CLIP = $10 USD flat), browses verified Experts by domain, books a session. During the call they see subtitles in their language and hear the Expert in their own cloned voice. After the session they can publish the recording into the Knowledge Repository for other askers to find.
 
 **Expert** submits credentials for review (degrees, certifications, licences), passes Stripe Identity verification, connects a bank account via Stripe Connect, sets their own per-minute CLIP rate. Sessions are taken live, earnings hit their wallet, cashout on demand. Pro tier cashes to real money. Scholar tier keeps Teaching Credits on-platform for academics.
 
-**Platform** takes 15%. Handles escrow, verification, dispute resolution, translation pipeline, Stripe Connect orchestration.
+**Platform** takes 25%. Handles escrow, verification, dispute resolution, the translation pipeline (Deepgram + ElevenLabs + OpenRouter API costs), Stripe Connect orchestration.
 
 ![Browse Experts](screenshots/experts.png)
 *Browse Experts. Per-minute rate visible. Verification tier on every card.*
 
 ---
 
+## Live Interpreter Mode
+
+**Voice-cloned, real-time cross-language conversation in production.**
+
+Speaker A talks in English. Speaker B hears A's actual cloned voice — not a synth — speaking Vietnamese (or any of 100+ languages), with live captions running in parallel. End-to-end latency ~250-400ms thanks to Deepgram Flux streaming transcription + ElevenLabs Flash v2.5 voice synthesis. That's "feels truly conversational" territory.
+
+Bookable as an opt-in toggle on any session. A modest premium covers the per-minute Deepgram + ElevenLabs + translation API costs; Experts still receive their normal effective rate from the platform's slice. The platform absorbs the AI cost so Experts never see it.
+
+**Coming next: lipsync.** The speaker's video output gets mouth-region modified to match the translated audio so cross-language sessions stop feeling like dubbed foreign films. Built on MuseTalk (MIT-licensed Tencent 2024 model). Free-tier infrastructure shipped 2026-04-29 — face baseline capture, utterance recording, lipsync UI scaffolding all live in production. The streaming-lipsync provider integration is the only remaining piece, gated on lipsync-API budget.
+
+---
+
 ## The translation pipeline
 
-Two parallel layers. Voice and text run side by side with a small intentional buffer so the dubbed audio catches up cleanly.
+Two layers run in parallel during every session.
 
-**Voice layer.** The Expert's voice is cloned and re-synthesised into the asker's target language. Not a robotic read — the Expert's own vocal character, speaking the asker's language.
+**Voice layer.** The Expert's voice is cloned (ElevenLabs Multilingual / Flash v2.5 with cloning) and re-synthesised into the asker's target language. Not a robotic read — the Expert's own vocal character, speaking the asker's language.
 
-**Text layer.** Spoken dialogue is transcribed and machine-translated into the same 100+ languages as live subtitles. Both sides see them in real time.
+**Text layer.** Spoken dialogue is transcribed (Deepgram Flux nova-3 streaming) and machine-translated (OpenRouter / Anthropic models) into 100+ languages as live captions. Both sides see them in real time.
 
-**Post-session.** The full translated recording is regenerated from the complete transcript with higher-quality translation and re-dubbed cleanly, replacing the live version in the session record.
+**Post-session.** The full translated recording is regenerated from the complete transcript with higher-fidelity translation and re-dubbed cleanly, replacing the live version in the session record.
 
 ![Translation pipeline](screenshots/how-it-works.png)
 *Voice + text layers run in parallel during every session.*
@@ -80,17 +92,21 @@ The marketplace gets better every time a session closes.
 
 ## Stack
 
-Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · HeyGen (voice clone + dubbing pipeline) · OpenAI Whisper (transcription) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
+Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · ElevenLabs (voice cloning + Multilingual v2 + Flash v2.5 streaming TTS) · Deepgram Flux (streaming transcription, sub-300ms latency) · OpenRouter / Anthropic / DeepL (LLM translation, provider-abstracted) · MuseTalk (lipsync, V1.5) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
 
-Vendor-portable by design. Video, translation, transcription, and email each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline.
+Vendor-portable by design. Video, translation, transcription, voice cloning, streaming TTS, and lipsync each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline.
 
 ---
 
 ## Status
 
-**Live and end-to-end verified in pre-launch testing.** The platform is deployed. The translation pipeline works. The Stripe Connect flow is operational. The admin tools are complete. What's left is inviting the first real Expert cohort and running the first paid sessions with real users.
+**Live and end-to-end verified in pre-launch testing.** The platform is deployed. Translation pipeline works. Stripe Connect flow is operational. Admin tools are complete.
 
-Launch is queued behind the first round of closed sessions landing cleanly.
+**Live Interpreter Mode is GA in production as of 2026-04-29.** Voice-cloned cross-language conversation runs at ~250-400ms end-to-end on real sessions. Premium pricing wired into the booking flow. Per-utterance recording infrastructure live, populating a private corpus of cross-language conversation pairs from every session.
+
+**V1.5 video lipsync is the next milestone.** Free-tier infrastructure shipped (face baseline capture, utterance recording, lipsync UI scaffolding). The streaming-lipsync provider integration is the only remaining piece — ~half a day of work when API budget exists.
+
+Launch is queued behind the first round of closed sessions landing cleanly with real Experts.
 
 ---
 
