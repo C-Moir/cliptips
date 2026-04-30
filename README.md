@@ -10,6 +10,7 @@ Book a verified expert by the minute, ask your question on camera, hear the answ
 [![Stripe Connect](https://img.shields.io/badge/Stripe-Connect-635bff?style=flat-square&logo=stripe&logoColor=white)](https://stripe.com/connect)
 
 ![ClipTips landing](screenshots/hero.png)
+*100+ languages. 75% creator payout. $10 per 1000 CLIP. 40+ knowledge domains. The Knowledge Map renders every domain as a sphere — click any to filter Experts.*
 
 ## What is this
 
@@ -17,7 +18,7 @@ The person who can answer your question exists somewhere in the world. They just
 
 ClipTips closes that gap. An Italian tiler, a Japanese pastry chef, a Queensland lawyer, a Brazilian surgeon — anyone with verifiable expertise can take live video sessions from askers worldwide, in any of 100+ languages. Voice is cloned and re-dubbed into the asker's language with subtitles running in parallel. Both sides speak naturally. Both sides understand.
 
-Paid per minute. No subscriptions. No hidden fees. 75% of every session goes to the Expert.
+Paid per minute. No subscriptions. No hidden fees. **75% of every session goes to the Expert.**
 
 ---
 
@@ -27,12 +28,12 @@ Paid per minute. No subscriptions. No hidden fees. 75% of every session goes to 
 
 **Asker** signs up, tops up CLIP tokens (1000 CLIP = $10 USD flat), browses verified Experts by domain, books a session. During the call they see subtitles in their language and hear the Expert in their own cloned voice. After the session they can publish the recording into the Knowledge Repository for other askers to find.
 
-**Expert** submits credentials for review (degrees, certifications, licences), passes Stripe Identity verification, connects a bank account via Stripe Connect, sets their own per-minute CLIP rate. Sessions are taken live, earnings hit their wallet, cashout on demand. Pro tier cashes to real money. Scholar tier keeps Teaching Credits on-platform for academics.
+**Expert** submits credentials for review (degrees, certifications, licences), passes Stripe Identity verification, connects a bank account via Stripe Connect, sets their own per-minute CLIP rate. Sessions are taken live, earnings hit their wallet, cashout on demand. **Pro tier** cashes to real money. **Scholar tier** keeps Teaching Credits on-platform for academics.
 
 **Platform** takes 25%. Handles escrow, verification, dispute resolution, the translation pipeline (Deepgram + ElevenLabs + OpenRouter API costs), Stripe Connect orchestration.
 
 ![Browse Experts](screenshots/experts.png)
-*Browse Experts. Per-minute rate visible. Verification tier on every card.*
+*Browse Experts. Per-minute rate visible. Verification tiers (Gold Verified, Pro, Scholar) on every card. Trust score sits next to the avatar — calculated from identity verification, credentials, completed sessions, ratings, and Gold subscription.*
 
 ---
 
@@ -58,8 +59,8 @@ Two layers run in parallel during every session.
 
 **Post-session.** The full translated recording is regenerated from the complete transcript with higher-fidelity translation and re-dubbed cleanly, replacing the live version in the session record.
 
-![Translation pipeline](screenshots/how-it-works.png)
-*Voice + text layers run in parallel during every session.*
+![Translation showcase — AI draft + native speaker correction loop](screenshots/translation-showcase.png)
+*The translation engine doesn't just MT-and-pray. AI proposes the textbook draft. Native speakers (here, Marco from Rome) correct it — "we say 'come si deve', not 'autentica'. That's textbook Italian — nobody says that." The corrected phrasing improves 23,000+ Italian cooking translations globally. Every native correction compounds across the whole platform.*
 
 ---
 
@@ -69,7 +70,8 @@ No follower-count-as-credential nonsense. ClipTips verifies the actual documents
 
 - **Stripe Identity** for every user. One passport, one account. Kills the bot-army and sock-puppet-review problem at the door.
 - **Credential review** for every Expert. Degrees, professional licences, certifications — all reviewed by admin, permanently attached to the profile.
-- **Gold Verified** tier for deeper trust. Optional one-time payment triggers a full background + credential audit. On approval, the badge lands on the public profile. Rejection is honest (refunded minus processing fees, no badge). Previously-approved Experts don't lose the badge if a later re-application is declined.
+- **Gold Verified** tier for deeper trust. $99/year subscription triggers a full background + credential audit. On approval, the gold badge lands on the public profile + 5 lifetime credential uploads included. Rejection is honest (refunded minus processing fees, no badge). Previously-approved Experts don't lose the badge if a later re-application is declined.
+- **Trust scores** are computed live from identity verification, credentials, completed sessions, rating averages, Gold subscription status, and profile completeness — visible on every Expert card.
 
 ---
 
@@ -78,7 +80,23 @@ No follower-count-as-credential nonsense. ClipTips verifies the actual documents
 Every knowledge domain on the platform is rendered as an orbiting sphere on a live 3D starmap. Size scales with session activity. Click a domain to filter Experts. The taxonomy is expert-proposed and admin-reviewed so it stays clean as the platform grows.
 
 ![Knowledge Nexus](screenshots/nexus.png)
-*141 domains seeded. Every sphere is a speciality with live Expert counts.*
+*Live 3D map: 655 knowledge domains as orbiting spheres. WebGL via React Three Fiber on desktop, procedural SVG fallback on mobile. Domains are shaped + coloured by category, sized by activity. Click any sphere to drop into that domain's Expert list.*
+
+---
+
+## Simple pricing — pay for what you use
+
+![Pricing page](screenshots/pricing.png)
+*1000 CLIP = $10 USD flat. Tokens never expire. Three top-up packages — Starter / Standard (10% off) / Pro (20% off). Per-minute billing — when you end the session, billing stops immediately.*
+
+No subscriptions. No monthly fees. Cross-language sessions add a small premium that funds the AI translation pipeline — Experts always receive their full effective rate from the platform's 25% slice.
+
+---
+
+## How a session unfolds
+
+![How it works — full session flow](screenshots/how-it-works.png)
+*Find the right Expert → top up CLIP → connect via live video → AI dubs the conversation in real time → recording optionally publishes to the Knowledge Repository. The Expert teaches in their language; you follow in yours.*
 
 ---
 
@@ -102,7 +120,7 @@ Vendor-portable by design. Video, translation, transcription, voice cloning, str
 
 **Live and end-to-end verified in pre-launch testing.** The platform is deployed. Translation pipeline works. Stripe Connect flow is operational. Admin tools are complete.
 
-**Live Interpreter Mode is GA in production as of 2026-04-29.** Voice-cloned cross-language conversation runs at ~250-400ms end-to-end on real sessions. Premium pricing wired into the booking flow. Per-utterance recording infrastructure live, populating a private corpus of cross-language conversation pairs from every session.
+**Live Interpreter Mode is GA in production as of 2026-04-29.** Voice-cloned cross-language conversation runs at ~250-400ms end-to-end on real sessions. Premium pricing wired into the booking flow. Per-utterance recording infrastructure live, populating a private corpus of cross-language conversation pairs from every session — a competitive data asset that compounds with every paid session.
 
 **V1.5 video lipsync is the next milestone.** Free-tier infrastructure shipped (face baseline capture, utterance recording, lipsync UI scaffolding). The streaming-lipsync provider integration is the only remaining piece — ~half a day of work when API budget exists.
 
@@ -113,6 +131,8 @@ Launch is queued behind the first round of closed sessions landing cleanly with 
 ## Links
 
 - **Live app:** [cliptips-mvp.vercel.app](https://cliptips-mvp.vercel.app)
+- **Browse Experts (live):** [cliptips-mvp.vercel.app/experts](https://cliptips-mvp.vercel.app/experts)
+- **Knowledge Nexus (live):** [cliptips-mvp.vercel.app/nexus](https://cliptips-mvp.vercel.app/nexus)
 - **Project write-up:** [streamables.live/projects/cliptips.html](https://streamables.live/projects/cliptips.html)
 - **Build log:** [How I Built ClipTips with Claude Code](https://streamables.live/articles/28-how-i-built-cliptips-with-claude-code.html)
 - **Creator:** [Cameron J. Moir](https://github.com/C-Moir) · [@camjmoir](https://x.com/camjmoir)
@@ -128,4 +148,4 @@ Interested in partnering on the launch, becoming an early Expert, or exploring a
 
 ---
 
-*Built solo in Brisbane. Claude Code is the IDE.*
+*Built solo in Brisbane. Claude Code is the IDE. Screenshots captured 2026-04-30 from the live production deployment.*
