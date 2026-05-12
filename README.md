@@ -37,15 +37,29 @@ Paid per minute. No subscriptions. No hidden fees. **75% of every session goes t
 
 ---
 
+## Native vs Global Expert pools
+
+Askers see two clearly-labelled pools when browsing.
+
+**Native Experts** speak your language. Booking is direct, standard rate, no translation overhead. Italian asker, Italian Expert — they talk, both sides understand each other naturally.
+
+**Global Experts** speak something else. Booking auto-enables live AI translation for the call. A modest premium covers the translation pipeline cost; the Expert's payout is unaffected (translation overhead comes entirely out of the platform's slice, not the Expert's).
+
+You're never locked in either direction. If you book a Native Expert and realise mid-call you want translation anyway — for a topic that wandered outside the shared language — there's a **Switch to translated** button in the session header. Prorated fee on the spot for the remaining booked time. The translation engine kicks in instantly for the rest of the call.
+
+The point is the entire world of expertise is reachable, not just the slice that happens to share your language.
+
+---
+
 ## Live Interpreter Mode
 
 **Voice-cloned, real-time cross-language conversation in production.**
 
 Speaker A talks in English. Speaker B hears A's actual cloned voice — not a synth — speaking Vietnamese (or any of 100+ languages), with live captions running in parallel. End-to-end latency ~250-400ms thanks to Deepgram Flux streaming transcription + ElevenLabs Flash v2.5 voice synthesis. That's "feels truly conversational" territory.
 
-Bookable as an opt-in toggle on any session. A modest premium covers the per-minute Deepgram + ElevenLabs + translation API costs; Experts still receive their normal effective rate from the platform's slice. The platform absorbs the AI cost so Experts never see it.
+Auto-engaged on cross-language bookings. Asker pays a transparent premium that covers the per-minute Deepgram + ElevenLabs + translation API cost; Experts still receive their full effective rate from the platform's slice. The platform absorbs the AI overhead so Experts never see it.
 
-**Coming next: lipsync.** The speaker's video output gets mouth-region modified to match the translated audio so cross-language sessions stop feeling like dubbed foreign films. Built on MuseTalk (MIT-licensed Tencent 2024 model). Free-tier infrastructure shipped 2026-04-29 — face baseline capture, utterance recording, lipsync UI scaffolding all live in production. The streaming-lipsync provider integration is the only remaining piece, gated on lipsync-API budget.
+**Lipsync is live.** The speaker's video output gets mouth-region modified to match the translated audio so cross-language sessions stop feeling like dubbed foreign films. Built on MuseTalk (MIT-licensed Tencent 2024 model). The current pipeline runs via Sieve. A self-hosted variant is wired and waiting at the volume threshold where hosted infra economics tip — flip a config switch, no code change.
 
 ---
 
@@ -60,7 +74,7 @@ Two layers run in parallel during every session.
 **Post-session.** The full translated recording is regenerated from the complete transcript with higher-fidelity translation and re-dubbed cleanly, replacing the live version in the session record.
 
 ![Translation showcase — AI draft + native speaker correction loop](screenshots/translation-showcase.png)
-*The translation engine doesn't just MT-and-pray. AI proposes the textbook draft. Native speakers (here, Marco from Rome) correct it — "we say 'come si deve', not 'autentica'. That's textbook Italian — nobody says that." The corrected phrasing improves 23,000+ Italian cooking translations globally. Every native correction compounds across the whole platform.*
+*The translation engine doesn't just MT-and-pray. AI proposes the textbook draft. Native speakers (here, Marco from Rome) correct it — "we say 'come si deve', not 'autentica'. That's textbook Italian — nobody says that." Native corrections feed back into the translation cache so the same phrase doesn't get re-mis-translated. Every correction compounds.*
 
 ---
 
@@ -89,7 +103,7 @@ Every knowledge domain on the platform is rendered as an orbiting sphere on a li
 ![Pricing page](screenshots/pricing.png)
 *1000 CLIP = $10 USD flat. Tokens never expire. Three top-up packages — Starter / Standard (10% off) / Pro (20% off). Per-minute billing — when you end the session, billing stops immediately.*
 
-No subscriptions. No monthly fees. Cross-language sessions add a small premium that funds the AI translation pipeline — Experts always receive their full effective rate from the platform's 25% slice.
+No subscriptions. No monthly fees. Cross-language sessions add a transparent premium that funds the AI translation pipeline — Experts always receive their full effective rate from the platform's 25% slice. The minimum any priced surface charges is $5, set by the Stripe-fee floor below which the 75/25 split stops working economically.
 
 ---
 
@@ -110,19 +124,21 @@ The marketplace gets better every time a session closes.
 
 ## Stack
 
-Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · ElevenLabs (voice cloning + Multilingual v2 + Flash v2.5 streaming TTS) · Deepgram Flux (streaming transcription, sub-300ms latency) · OpenRouter / Anthropic / DeepL (LLM translation, provider-abstracted) · MuseTalk (lipsync, V1.5) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
+Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · ElevenLabs (voice cloning + Multilingual v2 + Flash v2.5 streaming TTS) · Deepgram Flux (streaming transcription, sub-300ms latency) · OpenRouter / Anthropic / DeepL (LLM translation, provider-abstracted) · Sieve (live lipsync) · MuseTalk (lipsync model, self-host on standby) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
 
-Vendor-portable by design. Video, translation, transcription, voice cloning, streaming TTS, and lipsync each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline.
+Vendor-portable by design. Video, translation, transcription, voice cloning, streaming TTS, and lipsync each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline. Swaps happen via configuration, not code rewrites.
 
 ---
 
 ## Status
 
-**Live and end-to-end verified in pre-launch testing.** The platform is deployed. Translation pipeline works. Stripe Connect flow is operational. Admin tools are complete.
+**Pre-launch. Platform deployed end-to-end.** Translation pipeline, Stripe Connect, admin tools, and the trust + verification stack all operational.
 
-**Live Interpreter Mode is GA in production as of 2026-04-29.** Voice-cloned cross-language conversation runs at ~250-400ms end-to-end on real sessions. Premium pricing wired into the booking flow. Per-utterance recording infrastructure live, populating a private corpus of cross-language conversation pairs from every session — a competitive data asset that compounds with every paid session.
+**Live Interpreter Mode in production.** Voice-cloned cross-language conversation at ~250-400ms end-to-end. Premium pricing wired into the booking flow. The cross-language conversation corpus from every session is private, retained for replay + improvement (covered in `/privacy`) — a small compounding asset rather than a marketing claim.
 
-**V1.5 video lipsync is the next milestone.** Free-tier infrastructure shipped (face baseline capture, utterance recording, lipsync UI scaffolding). The streaming-lipsync provider integration is the only remaining piece — ~half a day of work when API budget exists.
+**Native vs Global pool marketplace in production.** Askers see Experts segmented by language match; pricing follows the tier. Mid-call upgrade to translated mode is a one-click flow with prorated billing.
+
+**V1.5 lipsync in production via Sieve.** Self-hosted lipsync (MuseTalk on serverless GPU) is wired and waiting at the volume threshold where hosted economics tip — config-flag swap, no code change.
 
 Launch is queued behind the first round of closed sessions landing cleanly with real Experts.
 
@@ -148,4 +164,4 @@ Interested in partnering on the launch, becoming an early Expert, or exploring a
 
 ---
 
-*Built solo in Brisbane. Claude Code is the IDE. Screenshots captured 2026-04-30 from the live production deployment.*
+*Built solo in Brisbane. Claude Code is the IDE. Screenshots captured 2026-04-30 from the live production deployment; the Native/Global pool marketplace, lipsync, and mid-session upgrade have shipped since.*
