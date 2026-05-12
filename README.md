@@ -10,7 +10,7 @@ Book a verified expert by the minute, ask your question on camera, hear the answ
 [![Stripe Connect](https://img.shields.io/badge/Stripe-Connect-635bff?style=flat-square&logo=stripe&logoColor=white)](https://stripe.com/connect)
 
 ![ClipTips landing](screenshots/hero.png)
-*100+ languages. 75% creator payout. $10 per 1000 CLIP. 40+ knowledge domains. The Knowledge Map renders every domain as a sphere — click any to filter Experts.*
+*100+ languages. 75% creator payout. $10 per 1000 CLIP. 650+ knowledge domains. The Knowledge Map renders every domain as a sphere — click any to filter Experts.*
 
 ## What is this
 
@@ -126,7 +126,7 @@ The marketplace gets better every time a session closes.
 
 Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · ElevenLabs (voice cloning + Multilingual v2 + Flash v2.5 streaming TTS) · Deepgram Flux (streaming transcription, sub-300ms latency) · OpenRouter / Anthropic / DeepL (LLM translation, provider-abstracted) · Sieve (live lipsync) · MuseTalk (lipsync model, self-host on standby) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
 
-Vendor-portable by design. Video, translation, transcription, voice cloning, streaming TTS, and lipsync each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline. Swaps happen via configuration, not code rewrites.
+Vendor-portable by design. Video, translation, transcription, voice cloning, streaming TTS, and lipsync each sit behind a small provider interface so a single vendor outage or price hike never takes the platform offline.
 
 ---
 
@@ -134,7 +134,7 @@ Vendor-portable by design. Video, translation, transcription, voice cloning, str
 
 **Pre-launch. Platform deployed end-to-end.** Translation pipeline, Stripe Connect, admin tools, and the trust + verification stack all operational.
 
-**Live Interpreter Mode in production.** Voice-cloned cross-language conversation at ~250-400ms end-to-end. Premium pricing wired into the booking flow. The cross-language conversation corpus from every session is private, retained for replay + improvement (covered in `/privacy`) — a small compounding asset rather than a marketing claim.
+**Live Interpreter Mode in production.** Voice-cloned cross-language conversation at ~250-400ms end-to-end. Premium pricing wired into the booking flow. Session recordings are private and retained per the privacy policy.
 
 **Native vs Global pool marketplace in production.** Askers see Experts segmented by language match; pricing follows the tier. Mid-call upgrade to translated mode is a one-click flow with prorated billing.
 
