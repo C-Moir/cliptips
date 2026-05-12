@@ -122,6 +122,20 @@ The marketplace gets better every time a session closes.
 
 ---
 
+## Pooled bounties — chip in on questions that matter
+
+Hard questions deserve real bounties. The hard part is the asker rarely knows what their question is worth — a constitutional-law analysis takes hours of bar-admitted attention; "what should I eat in Buenos Aires" is a 30-second answer. Asker self-pricing breaks the marketplace in both directions: undervalued questions never get answered, overvalued ones burn the asker's wallet for fluff.
+
+ClipTips fixes this two ways.
+
+**Fair-price suggestion when posting.** Write your question. Hit "Get fair price". An AI reads the question and proposes a bounty floor based on complexity, required expertise, and category. The platform enforces the floor server-side so trivial questions can't be priced as professional advice — and professional advice can't be lowballed into rot. The asker can always pay more.
+
+**Anyone can chip in.** Once a question is posted, other users who want the same answer can join the bounty pool. The minimum chip-in is 50% of the asker's original bounty, so contributions are commitment, not free-riding. Every contributor unlocks access to the answer when an Expert delivers. The Expert earns 75% of the total pool, regardless of who funded it.
+
+The result: questions get priced fairly, deep-cut Experts respond to bounties worth their time, and one person's curiosity can be funded by anyone else who wants the answer too.
+
+---
+
 ## Stack
 
 Next.js 15 (App Router) · TypeScript · Supabase (Postgres + Realtime + Storage, RLS everywhere) · Clerk (auth) · Stripe + Stripe Connect Express + Stripe Identity · Daily.co + Jitsi Meet (live video, provider-abstracted) · ElevenLabs (voice cloning + Multilingual v2 + Flash v2.5 streaming TTS) · Deepgram Flux (streaming transcription, sub-300ms latency) · OpenRouter / Anthropic / DeepL (LLM translation, provider-abstracted) · Sieve (live lipsync) · MuseTalk (lipsync model, self-host on standby) · Resend (transactional email) · Vercel · Tailwind 4 · React Three Fiber for the Knowledge Nexus 3D map
@@ -137,6 +151,8 @@ Vendor-portable by design. Video, translation, transcription, voice cloning, str
 **Live Interpreter Mode in production.** Voice-cloned cross-language conversation at ~250-400ms end-to-end. Premium pricing wired into the booking flow. Session recordings are private and retained per the privacy policy.
 
 **Native vs Global pool marketplace in production.** Askers see Experts segmented by language match; pricing follows the tier. Mid-call upgrade to translated mode is a one-click flow with prorated billing.
+
+**Pooled bounties + AI fair-price suggestions in production.** Every new question gets an AI-suggested bounty floor based on complexity. Other users can chip into the bounty pool to unlock access to the answer. Single source of pricing truth, no asker guesswork.
 
 **V1.5 lipsync in production via Sieve.** Self-hosted lipsync (MuseTalk on serverless GPU) is wired and waiting at the volume threshold where hosted economics tip — config-flag swap, no code change.
 
